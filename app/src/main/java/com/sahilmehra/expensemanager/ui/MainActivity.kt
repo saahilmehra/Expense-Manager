@@ -1,7 +1,9 @@
-package com.sahilmehra.expensemanager
+package com.sahilmehra.expensemanager.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.sahilmehra.expensemanager.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
