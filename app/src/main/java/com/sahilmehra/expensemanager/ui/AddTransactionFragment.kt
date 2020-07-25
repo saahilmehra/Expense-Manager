@@ -3,13 +3,13 @@ package com.sahilmehra.expensemanager.ui
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
@@ -17,7 +17,6 @@ import com.sahilmehra.expensemanager.R
 import com.sahilmehra.expensemanager.data.*
 import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_add_transaction.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 class AddTransactionFragment : Fragment() {
@@ -81,19 +80,21 @@ class AddTransactionFragment : Fragment() {
         validateText(tietRecurringPeriod, tilRecurringPeriod)
         validateText(tietComments, tilComments)
 
-        val categories= mutableListOf<String>()
+        val categories = mutableListOf<String>()
         TransactionCategory.values().forEach {
             categories.add(it.name)
         }
-        val categoryAdapter=ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, categories)
-        spinnerCategory.adapter=categoryAdapter
+        val categoryAdapter =
+            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, categories)
+        spinnerCategory.adapter = categoryAdapter
 
-        val transactionModes= mutableListOf<String>()
+        val transactionModes = mutableListOf<String>()
         TransactionMode.values().forEach {
             transactionModes.add(it.name)
         }
-        val transactionModeAdapter=ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, transactionModes)
-        spinnerTransactionType.adapter=transactionModeAdapter
+        val transactionModeAdapter =
+            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, transactionModes)
+        spinnerTransactionType.adapter = transactionModeAdapter
 
         btnExpense.setOnClickListener {
             combineData(TransactionType.Expense)
@@ -151,7 +152,7 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun combineData(transactionType: TransactionType) {
-        val calendar:Calendar= Calendar.getInstance()
+        val calendar: Calendar = Calendar.getInstance()
 
         if (tietTransactionName.text.isEmpty() || tietAmount.text.isEmpty() || tietTransactionDate.text.isEmpty() || tietComments.text.isEmpty())
             Toast.makeText(requireContext(), "Please fill all fields!", Toast.LENGTH_LONG).show()
@@ -178,7 +179,7 @@ class AddTransactionFragment : Fragment() {
                     findNavController().navigate(R.id.action_addTransaction_to_tab)
                 }
             else {
-                val pastTransaction=PastTransaction(
+                val pastTransaction = PastTransaction(
                     0,
                     tietTransactionName.text.toString().trim(),
                     tietAmount.text.toString().toFloat(),

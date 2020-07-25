@@ -18,6 +18,21 @@ class TransactionRepository(context: Application) {
     fun getPastTransactionsByCategory(category: Int): LiveData<List<PastTransaction>> =
         transactionDao.getPastTransactionsByCategory(category)
 
+    fun getAmountByMode(transactionMode: Int): LiveData<Float> =
+        transactionDao.getAmountByMode(transactionMode)
+
+    fun getPersonalUpcomingTransactions(): LiveData<List<UpcomingTransaction>> =
+        transactionDao.getPersonalUpcomingTransactions()
+
+    fun getBusinessUpcomingTransactions(): LiveData<List<UpcomingTransaction>> =
+        transactionDao.getBusinessUpcomingTransactions()
+
+    fun getPersonalPastTransactions(): LiveData<List<PastTransaction>> =
+        transactionDao.getPersonalPastTransaction()
+
+    fun getBusinessPastTransactions(): LiveData<List<PastTransaction>> =
+        transactionDao.getBusinessPastTransaction()
+
     suspend fun insertPastTransaction(pastTransaction: PastTransaction) =
         transactionDao.insertPastTransaction(pastTransaction)
 

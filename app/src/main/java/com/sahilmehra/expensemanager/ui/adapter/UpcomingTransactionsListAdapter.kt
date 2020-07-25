@@ -9,24 +9,29 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sahilmehra.expensemanager.R
+import com.sahilmehra.expensemanager.data.TransactionMode
 import com.sahilmehra.expensemanager.data.TransactionType
 import com.sahilmehra.expensemanager.data.UpcomingTransaction
 import com.sahilmehra.expensemanager.readableFormat
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.home_list_item.*
+import kotlinx.android.synthetic.main.transactions_list_item.*
 
-class UpcomingTransactionsAdapter(private val context: Context) :
-    ListAdapter<UpcomingTransaction, UpcomingTransactionsAdapter.ViewHolder>(DiffCallbackUT()) {
+class UpcomingTransactionsListAdapter(private val context: Context) :
+    ListAdapter<UpcomingTransaction, UpcomingTransactionsListAdapter.ViewHolder>(DiffCallbackUtList()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): UpcomingTransactionsAdapter.ViewHolder {
+    ): UpcomingTransactionsListAdapter.ViewHolder {
         val itemLayout =
-            LayoutInflater.from(parent.context).inflate(R.layout.home_list_item, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.transactions_list_item, parent, false)
         return ViewHolder(itemLayout)
     }
 
-    override fun onBindViewHolder(holder: UpcomingTransactionsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: UpcomingTransactionsListAdapter.ViewHolder,
+        position: Int
+    ) {
         holder.bind(getItem(position))
     }
 
@@ -35,19 +40,26 @@ class UpcomingTransactionsAdapter(private val context: Context) :
         LayoutContainer {
         fun bind(upcomingTransaction: UpcomingTransaction) {
             with(upcomingTransaction) {
-                tvName.text = name
-                tvDate.text = date.readableFormat()
+                tvNameList.text = name
+                tvDateList.text = date.readableFormat()
+                when (mode) {
+                    0 -> tvTransactionTypeList.text = TransactionMode.Cash.name
+                    1 -> tvTransactionTypeList.text = TransactionMode.Card.name
+                    2 -> tvTransactionTypeList.text = TransactionMode.Cheque.name
+                    3 -> tvTransactionTypeList.text = TransactionMode.Others.name
+                }
+
                 if (type == TransactionType.Income.ordinal) {
-                    tvAmount.text = "+$amount"
-                    tvAmount.setTextColor(
+                    tvAmountList.text = "+$amount"
+                    tvAmountList.setTextColor(
                         ContextCompat.getColor(
                             context,
                             R.color.income_text_color
                         )
                     )
                 } else {
-                    tvAmount.text = "-$amount"
-                    tvAmount.setTextColor(
+                    tvAmountList.text = "-$amount"
+                    tvAmountList.setTextColor(
                         ContextCompat.getColor(
                             context,
                             R.color.expense_text_color
@@ -59,7 +71,7 @@ class UpcomingTransactionsAdapter(private val context: Context) :
     }
 }
 
-class DiffCallbackUT : DiffUtil.ItemCallback<UpcomingTransaction>() {
+class DiffCallbackUtList : DiffUtil.ItemCallback<UpcomingTransaction>() {
     override fun areItemsTheSame(
         oldItem: UpcomingTransaction,
         newItem: UpcomingTransaction

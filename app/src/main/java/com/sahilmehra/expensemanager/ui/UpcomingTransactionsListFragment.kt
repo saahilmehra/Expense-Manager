@@ -1,15 +1,15 @@
 package com.sahilmehra.expensemanager.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sahilmehra.expensemanager.R
-import com.sahilmehra.expensemanager.ui.adapter.UpcomingTransactionsAdapter
+import com.sahilmehra.expensemanager.ui.adapter.UpcomingTransactionsListAdapter
 import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -19,7 +19,7 @@ class UpcomingTransactionsListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel= ViewModelProvider(requireActivity()).get(TransactionViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(TransactionViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -33,13 +33,13 @@ class UpcomingTransactionsListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        with(rvUpcomingTransactions){
-            adapter= UpcomingTransactionsAdapter(requireContext())
-            layoutManager= LinearLayoutManager(context)
+        with(rvUpcomingTransactions) {
+            adapter = UpcomingTransactionsListAdapter(requireContext())
+            layoutManager = LinearLayoutManager(context)
         }
 
         viewModel.upcomingTransactions.observe(viewLifecycleOwner, Observer {
-            (rvUpcomingTransactions.adapter as UpcomingTransactionsAdapter).submitList(it)
+            (rvUpcomingTransactions.adapter as UpcomingTransactionsListAdapter).submitList(it)
         })
     }
 }

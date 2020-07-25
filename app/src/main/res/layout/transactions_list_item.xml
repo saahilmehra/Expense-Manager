@@ -7,47 +7,47 @@
     android:layout_marginTop="8dp">
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvNameList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@android:color/black"
         android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/tvAmount"
+        app:layout_constraintEnd_toStartOf="@+id/tvAmountList"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Item 1" />
 
     <TextView
-        android:id="@+id/tvDate"
+        android:id="@+id/tvDateList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameList"
         tools:text="30 May, 2020" />
 
     <TextView
-        android:id="@+id/tvAmount"
+        android:id="@+id/tvAmountList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_light"
         android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDateList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="-200" />
 
     <TextView
-        android:id="@+id/tvTransactionType"
+        android:id="@+id/tvTransactionTypeList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/tvDate"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        app:layout_constraintStart_toEndOf="@+id/tvDateList"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameList"
         tools:text="Cash" />
 
     <View
@@ -58,6 +58,6 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTransactionType" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTransactionTypeList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

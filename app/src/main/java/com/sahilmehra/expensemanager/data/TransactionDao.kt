@@ -8,7 +8,7 @@ interface TransactionDao {
     @Query("SELECT * FROM upcoming_transaction")
     fun getUpcomingTransactions(): LiveData<List<UpcomingTransaction>>
 
-    @Query("SELECT * FROM past_transaction ORDER BY date")
+    @Query("SELECT * FROM past_transaction")
     fun getPastTransaction(): LiveData<List<PastTransaction>>
 
     @Query("SELECT * from upcoming_transaction WHERE category= :category")
@@ -16,6 +16,21 @@ interface TransactionDao {
 
     @Query("SELECT * from past_transaction WHERE category= :category")
     fun getPastTransactionsByCategory(category: Int): LiveData<List<PastTransaction>>
+
+    @Query("SELECT SUM(amount) FROM past_transaction WHERE mode= :transactionMode AND type=1")
+    fun getAmountByMode(transactionMode: Int): LiveData<Float>
+
+    @Query("SELECT * FROM upcoming_transaction WHERE category=0")
+    fun getPersonalUpcomingTransactions(): LiveData<List<UpcomingTransaction>>
+
+    @Query("SELECT * FROM upcoming_transaction WHERE category=1")
+    fun getBusinessUpcomingTransactions(): LiveData<List<UpcomingTransaction>>
+
+    @Query("SELECT * FROM past_transaction WHERE category=0")
+    fun getPersonalPastTransaction(): LiveData<List<PastTransaction>>
+
+    @Query("SELECT * FROM past_transaction WHERE category=1")
+    fun getBusinessPastTransaction(): LiveData<List<PastTransaction>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPastTransaction(pastTransactions: PastTransaction)

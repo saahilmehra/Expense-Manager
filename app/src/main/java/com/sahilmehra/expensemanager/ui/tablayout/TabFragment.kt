@@ -1,10 +1,10 @@
 package com.sahilmehra.expensemanager.ui.tablayout
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -25,20 +25,20 @@ class TabFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewPagerAdapter = ViewPagerAdapter(this, 3)
-        val viewPager:ViewPager2 = view.findViewById(R.id.viewPager)
+        val viewPager: ViewPager2 = view.findViewById(R.id.viewPager)
         viewPager.adapter = viewPagerAdapter
 
-        val tabLayout:TabLayout=view.findViewById(R.id.tabLayout)
+        val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
 
-        TabLayoutMediator(tabLayout, viewPager){tab, position ->
-            when(position){
-                0->tab.text="All"
-                1->tab.text="Personal"
-                2->tab.text="Business"
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "All"
+                1 -> tab.text = "Personal"
+                2 -> tab.text = "Business"
             }
         }.attach()
 
-        fabAddTransaction.setOnClickListener{
+        fabAddTransaction.setOnClickListener {
             findNavController().navigate(R.id.action_tab_to_addTransaction)
         }
     }

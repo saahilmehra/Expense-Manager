@@ -1,16 +1,15 @@
 package com.sahilmehra.expensemanager.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sahilmehra.expensemanager.R
-import com.sahilmehra.expensemanager.ui.adapter.PastTransactionsAdapter
-import com.sahilmehra.expensemanager.ui.adapter.UpcomingTransactionsAdapter
+import com.sahilmehra.expensemanager.ui.adapter.PastTransactionsListAdapter
 import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -20,7 +19,7 @@ class PastTransactionsListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel= ViewModelProvider(requireActivity()).get(TransactionViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(TransactionViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -34,13 +33,13 @@ class PastTransactionsListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        with(rvPastTransactions){
-            adapter= PastTransactionsAdapter(requireContext())
-            layoutManager= LinearLayoutManager(context)
+        with(rvPastTransactions) {
+            adapter = PastTransactionsListAdapter(requireContext())
+            layoutManager = LinearLayoutManager(context)
         }
 
         viewModel.pastTransactions.observe(viewLifecycleOwner, Observer {
-            (rvPastTransactions.adapter as PastTransactionsAdapter).submitList(it)
+            (rvPastTransactions.adapter as PastTransactionsListAdapter).submitList(it)
         })
     }
 }
