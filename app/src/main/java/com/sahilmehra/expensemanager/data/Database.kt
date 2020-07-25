@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 
 @TypeConverters(DbTypeConverters::class)
 @Database(
-    entities = [UpcomingTransactions::class, PastTransactions::class, Month::class],
+    entities = [UpcomingTransaction::class, PastTransaction::class, Month::class],
     version = 1
 )
 abstract class Database : RoomDatabase() {

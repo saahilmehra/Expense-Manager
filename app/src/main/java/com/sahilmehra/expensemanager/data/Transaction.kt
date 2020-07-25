@@ -22,31 +22,31 @@ enum class TransactionType {
     Income
 }
 
-@Entity(tableName = "past_transactions")
-data class PastTransactions(
+@Entity(tableName = "past_transaction")
+data class PastTransaction(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val name: String,
-    val amount: Int,
+    val amount: Float,
     val date: Date,
     val comments: String,
-    val category: TransactionCategory,
-    val mode: TransactionMode,
-    val type: TransactionType
+    val category: Int,
+    val mode: Int,
+    val type: Int
 )
 
-@Entity(tableName = "upcoming_transactions")
-data class UpcomingTransactions(
+@Entity(tableName = "upcoming_transaction")
+data class UpcomingTransaction(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val name: String,
-    val amount: Int,
+    val amount: Float,
     val date: Date,
     val from: Date,
     val to: Date,
     @ColumnInfo(name = "recurring_period") val recurringPeriod: Int,
     val comments: String,
-    val category: TransactionCategory,
-    val mode: TransactionMode,
-    val type: TransactionType
+    val category: Int,
+    val mode: Int,
+    val type: Int
 )
 
 @Entity(tableName = "month_data")

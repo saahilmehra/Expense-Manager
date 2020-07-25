@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_tab_to_addTransaction"
             app:destination="@id/addTransaction" />
+        <action
+            android:id="@+id/action_tab_to_upcoming_transactions_list"
+            app:destination="@id/upcoming_transactions_list" />
+        <action
+            android:id="@+id/action_tab_to_past_transactions_list"
+            app:destination="@id/past_transactions_list" />
     </fragment>
     <fragment
         android:id="@+id/addTransaction"
@@ -22,6 +28,17 @@
         <action
             android:id="@+id/action_addTransaction_to_tab"
             app:destination="@id/tab"
+            app:popUpTo="@id/tab"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/upcoming_transactions_list"
+        android:name="com.sahilmehra.expensemanager.ui.UpcomingTransactionsListFragment"
+        android:label="fragment_upcoming_transactions_list"
+        tools:layout="@layout/fragment_upcoming_transactions_list" />
+    <fragment
+        android:id="@+id/past_transactions_list"
+        android:name="com.sahilmehra.expensemanager.ui.PastTransactionsListFragment"
+        android:label="fragment_past_transactions_list"
+        tools:layout="@layout/fragment_past_transactions_list" />
 </navigation>

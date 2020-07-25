@@ -3,4 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="expense_text_color">@android:color/holo_red_light</color>
+    <color name="income_text_color">@android:color/holo_green_dark</color>
 </resources>

@@ -6,33 +6,33 @@ import androidx.lifecycle.LiveData
 class TransactionRepository(context: Application) {
     private val transactionDao: TransactionDao = Database.getDatabase(context).getTransactionDao()
 
-    fun getUpcomingTransactions(): LiveData<List<UpcomingTransactions>> {
+    fun getUpcomingTransactions(): LiveData<List<UpcomingTransaction>> {
         return transactionDao.getUpcomingTransactions()
     }
 
-    fun getPastTransaction(): LiveData<List<PastTransactions>> = transactionDao.getPastTransaction()
+    fun getPastTransactions(): LiveData<List<PastTransaction>> = transactionDao.getPastTransaction()
 
-    fun getUpcomingTransactionsByCategory(category: TransactionCategory): LiveData<List<UpcomingTransactions>> =
+    fun getUpcomingTransactionsByCategory(category: Int): LiveData<List<UpcomingTransaction>> =
         transactionDao.getUpcomingTransactionsByCategory(category)
 
-    fun getPastTransactionsByCategory(category: TransactionCategory): LiveData<List<PastTransactions>> =
+    fun getPastTransactionsByCategory(category: Int): LiveData<List<PastTransaction>> =
         transactionDao.getPastTransactionsByCategory(category)
 
-    suspend fun insertPastTransaction(pastTransactions: PastTransactions) =
-        transactionDao.insertPastTransaction(pastTransactions)
+    suspend fun insertPastTransaction(pastTransaction: PastTransaction) =
+        transactionDao.insertPastTransaction(pastTransaction)
 
-    suspend fun insertUpcomingTransaction(upcomingTransactions: UpcomingTransactions) =
-        transactionDao.insertUpcomingTransaction(upcomingTransactions)
+    suspend fun insertUpcomingTransaction(upcomingTransaction: UpcomingTransaction) =
+        transactionDao.insertUpcomingTransaction(upcomingTransaction)
 
-    suspend fun updateUpcomingTransaction(upcomingTransactions: UpcomingTransactions) =
-        transactionDao.updateUpcomingTransaction(upcomingTransactions)
+    suspend fun updateUpcomingTransaction(upcomingTransaction: UpcomingTransaction) =
+        transactionDao.updateUpcomingTransaction(upcomingTransaction)
 
-    suspend fun updatePastTransaction(pastTransactions: PastTransactions) =
-        transactionDao.updatePastTransaction(pastTransactions)
+    suspend fun updatePastTransaction(pastTransaction: PastTransaction) =
+        transactionDao.updatePastTransaction(pastTransaction)
 
-    suspend fun deleteUpcomingTransaction(upcomingTransactions: UpcomingTransactions) =
-        transactionDao.deleteUpcomingTransaction(upcomingTransactions)
+    suspend fun deleteUpcomingTransaction(upcomingTransaction: UpcomingTransaction) =
+        transactionDao.deleteUpcomingTransaction(upcomingTransaction)
 
-    suspend fun deletePastTransaction(pastTransactions: PastTransactions) =
-        transactionDao.deletePastTransaction(pastTransactions)
+    suspend fun deletePastTransaction(pastTransaction: PastTransaction) =
+        transactionDao.deletePastTransaction(pastTransaction)
 }

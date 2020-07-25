@@ -5,33 +5,33 @@ import androidx.room.*
 
 @Dao
 interface TransactionDao {
-    @Query("SELECT * FROM upcoming_transactions")
-    fun getUpcomingTransactions(): LiveData<List<UpcomingTransactions>>
+    @Query("SELECT * FROM upcoming_transaction")
+    fun getUpcomingTransactions(): LiveData<List<UpcomingTransaction>>
 
-    @Query("SELECT * FROM past_transactions ORDER BY date")
-    fun getPastTransaction(): LiveData<List<PastTransactions>>
+    @Query("SELECT * FROM past_transaction ORDER BY date")
+    fun getPastTransaction(): LiveData<List<PastTransaction>>
 
-    @Query("SELECT * from upcoming_transactions WHERE category= :category")
-    fun getUpcomingTransactionsByCategory(category: TransactionCategory): LiveData<List<UpcomingTransactions>>
+    @Query("SELECT * from upcoming_transaction WHERE category= :category")
+    fun getUpcomingTransactionsByCategory(category: Int): LiveData<List<UpcomingTransaction>>
 
-    @Query("SELECT * from past_transactions WHERE category= :category")
-    fun getPastTransactionsByCategory(category: TransactionCategory): LiveData<List<PastTransactions>>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertPastTransaction(pastTransactions: PastTransactions)
+    @Query("SELECT * from past_transaction WHERE category= :category")
+    fun getPastTransactionsByCategory(category: Int): LiveData<List<PastTransaction>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertUpcomingTransaction(upcomingTransactions: UpcomingTransactions)
+    suspend fun insertPastTransaction(pastTransactions: PastTransaction)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertUpcomingTransaction(upcomingTransactions: UpcomingTransaction)
 
     @Update
-    suspend fun updateUpcomingTransaction(upcomingTransactions: UpcomingTransactions)
+    suspend fun updateUpcomingTransaction(upcomingTransaction: UpcomingTransaction)
 
     @Update
-    suspend fun updatePastTransaction(pastTransactions: PastTransactions)
+    suspend fun updatePastTransaction(pastTransaction: PastTransaction)
 
     @Delete
-    suspend fun deleteUpcomingTransaction(upcomingTransactions: UpcomingTransactions)
+    suspend fun deleteUpcomingTransaction(upcomingTransaction: UpcomingTransaction)
 
     @Delete
-    suspend fun deletePastTransaction(pastTransactions: PastTransactions)
+    suspend fun deletePastTransaction(pastTransaction: PastTransaction)
 }
