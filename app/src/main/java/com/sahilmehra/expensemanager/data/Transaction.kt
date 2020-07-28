@@ -51,6 +51,6 @@ data class UpcomingTransaction(
 
 @Entity(tableName = "month_data")
 data class Month(
-    @PrimaryKey val month: Int,
-    val budget: Int
+    @PrimaryKey val id: String,
+    val budget: Float
 )

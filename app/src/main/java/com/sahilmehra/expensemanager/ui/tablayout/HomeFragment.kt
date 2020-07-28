@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sahilmehra.expensemanager.R
+import com.sahilmehra.expensemanager.ui.adapter.MonthsAdapter
 import com.sahilmehra.expensemanager.ui.adapter.PastTransactionsAdapter
 import com.sahilmehra.expensemanager.ui.adapter.UpcomingTransactionsAdapter
 import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
@@ -49,6 +50,13 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
 
+        with(rvMonths) {
+            adapter = MonthsAdapter(requireContext()) {
+                findNavController().navigate(TabFragmentDirections.actionTabToMonthDetail(it))
+            }
+            layoutManager = LinearLayoutManager(context)
+        }
+
         viewModel.upcomingTransactions.observe(viewLifecycleOwner, Observer {
             (rvUpcomingTransactions.adapter as UpcomingTransactionsAdapter).submitList(it)
         })
@@ -81,12 +89,20 @@ class HomeFragment : Fragment() {
             setAmount()
         })
 
+        viewModel.months.observe(viewLifecycleOwner, Observer {
+            (rvMonths.adapter as MonthsAdapter).submitList(it)
+        })
+
         btnUpcomingNext.setOnClickListener {
             findNavController().navigate(R.id.action_tab_to_upcoming_transactions_list)
         }
 
         btnPastNext.setOnClickListener {
             findNavController().navigate(R.id.action_tab_to_past_transactions_list)
+        }
+
+        btnMonthsNext.setOnClickListener {
+            findNavController().navigate(R.id.action_tab_to_month_list)
         }
     }
 

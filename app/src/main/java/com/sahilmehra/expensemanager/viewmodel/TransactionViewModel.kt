@@ -1,15 +1,13 @@
 package com.sahilmehra.expensemanager.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
-import com.sahilmehra.expensemanager.data.PastTransaction
-import com.sahilmehra.expensemanager.data.TransactionMode
-import com.sahilmehra.expensemanager.data.TransactionRepository
-import com.sahilmehra.expensemanager.data.UpcomingTransaction
+import android.util.Log
+import androidx.lifecycle.*
+import com.sahilmehra.expensemanager.data.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TransactionViewModel(application: Application) : AndroidViewModel(application) {
     private val repo: TransactionRepository = TransactionRepository(application)
@@ -32,6 +30,71 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     val businessPastTransactions: LiveData<List<PastTransaction>> =
         repo.getBusinessPastTransactions()
 
+    val months: LiveData<List<Month>> = repo.getMonths()
+
+    private val _monthId = MutableLiveData<String>("")
+    val monthId: LiveData<String>
+        get() = _monthId
+
+    val expenseByMonth: LiveData<Float> = Transformations.switchMap(_monthId) { id ->
+        val startDateString = "01$id"
+        val dateFormat = SimpleDateFormat("ddMMyyyy")
+        val convertedDate: Date = dateFormat.parse(startDateString)
+        Log.e("startDateStringPast", convertedDate.toString())
+
+        val calendar = Calendar.getInstance()
+
+        calendar.time = convertedDate
+        val startDate = calendar.time
+        Log.e("startDatePast", startDate.toString())
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val endDate = calendar.time
+        Log.e("endDatePast", endDate.toString())
+
+        repo.getExpenseByMonth(startDate, endDate)
+    }
+
+    val incomeByMonth: LiveData<Float> = Transformations.switchMap(_monthId) { id ->
+        val startDateString = "01$id"
+        val dateFormat = SimpleDateFormat("ddMMyyyy")
+        val convertedDate: Date = dateFormat.parse(startDateString)
+        Log.e("startDateStringPast", convertedDate.toString())
+
+        val calendar = Calendar.getInstance()
+
+        calendar.time = convertedDate
+        val startDate = calendar.time
+        Log.e("startDatePast", startDate.toString())
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val endDate = calendar.time
+        Log.e("endDatePast", endDate.toString())
+
+        repo.getIncomeByMonth(startDate, endDate)
+    }
+
+    val pastTransactionsByMonth: LiveData<List<PastTransaction>> =
+        Transformations.switchMap(_monthId) { id ->
+            val startDateString = "01$id"
+            val dateFormat = SimpleDateFormat("ddMMyyyy")
+            val convertedDate: Date = dateFormat.parse(startDateString)
+            Log.e("startDateStringPast", convertedDate.toString())
+
+            val calendar = Calendar.getInstance()
+
+            calendar.time = convertedDate
+            val startDate = calendar.time
+            Log.e("startDatePast", startDate.toString())
+
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+            val endDate = calendar.time
+            Log.e("endDatePast", endDate.toString())
+
+
+            repo.getPastTransactionsByMonth(startDate, endDate)
+        }
+
     fun insertPastTransaction(transaction: PastTransaction) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.insertPastTransaction(transaction)
@@ -42,5 +105,16 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch(Dispatchers.IO) {
             repo.insertUpcomingTransaction(transaction)
         }
+    }
+
+    fun insertMonth(month: Month) {
+        viewModelScope.launch {
+            repo.insertMonth(month)
+        }
+    }
+
+    fun setMonthId(id: String) {
+        if (monthId.value != id)
+            _monthId.value = id
     }
 }

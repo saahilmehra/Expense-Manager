@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvMonthName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textAllCaps="true"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="July" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp" />
+
+        <TextView
+            android:id="@+id/tvBudgetExcceeded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BUDGET EXCEEDED"
+            android:textAllCaps="true"
+            android:textColor="@color/expense_text_color"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMonthName"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintTop_toTopOf="@+id/tvMonthName" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMonthTransactions"
+            android:layout_width="0dp"
+            android:layout_height="192dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/tvMonthName"
+            tools:listitem="@layout/month_transactions_list_item" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="32dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/rvMonthTransactions" />
+
+        <Button
+            android:id="@+id/btnMonthListNext"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VIEW ALL"
+            android:textSize="18sp"
+            app:icon="@drawable/next"
+            app:iconGravity="textEnd"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

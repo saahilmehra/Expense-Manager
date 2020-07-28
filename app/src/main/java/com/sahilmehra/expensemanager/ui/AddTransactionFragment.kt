@@ -3,6 +3,7 @@ package com.sahilmehra.expensemanager.ui
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.sahilmehra.expensemanager.R
 import com.sahilmehra.expensemanager.data.*
 import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_add_transaction.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddTransactionFragment : Fragment() {
@@ -176,6 +178,10 @@ class AddTransactionFragment : Fragment() {
                         transactionType.ordinal
                     )
                     viewModel.insertUpcomingTransaction(upcomingTransaction)
+
+                    insertMonth(calendar.time) //transaction date
+                    insertMonth(calendar.time) //transaction from date
+
                     findNavController().navigate(R.id.action_addTransaction_to_tab)
                 }
             else {
@@ -190,7 +196,21 @@ class AddTransactionFragment : Fragment() {
                     transactionType.ordinal
                 )
                 viewModel.insertPastTransaction(pastTransaction)
+
+                insertMonth(calendar.time) //transaction date
+
                 findNavController().navigate(R.id.action_addTransaction_to_tab)
             }
+    }
+
+    private fun insertMonth(date: Date) {
+        val dateFormat = SimpleDateFormat("MMyyyy", Locale.getDefault())
+        val monthId: String = dateFormat.format(date)
+
+        Log.e("monthId", monthId)
+
+        val monthData = Month(monthId, 35000F)
+
+        viewModel.insertMonth(monthData)
     }
 }

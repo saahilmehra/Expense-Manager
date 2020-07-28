@@ -2,6 +2,7 @@ package com.sahilmehra.expensemanager.data
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import java.util.*
 
 class TransactionRepository(context: Application) {
     private val transactionDao: TransactionDao = Database.getDatabase(context).getTransactionDao()
@@ -33,11 +34,24 @@ class TransactionRepository(context: Application) {
     fun getBusinessPastTransactions(): LiveData<List<PastTransaction>> =
         transactionDao.getBusinessPastTransaction()
 
+    fun getMonths(): LiveData<List<Month>> = transactionDao.getMonths()
+
+    fun getPastTransactionsByMonth(from: Date, to: Date): LiveData<List<PastTransaction>> =
+        transactionDao.getPastTransactionsByMonth(from, to)
+
+    fun getExpenseByMonth(from: Date, to: Date): LiveData<Float> =
+        transactionDao.getExpenseByMonth(from, to)
+
+    fun getIncomeByMonth(from: Date, to: Date): LiveData<Float> =
+        transactionDao.getIncomeByMonth(from, to)
+
     suspend fun insertPastTransaction(pastTransaction: PastTransaction) =
         transactionDao.insertPastTransaction(pastTransaction)
 
     suspend fun insertUpcomingTransaction(upcomingTransaction: UpcomingTransaction) =
         transactionDao.insertUpcomingTransaction(upcomingTransaction)
+
+    suspend fun insertMonth(month: Month) = transactionDao.insertMonth(month)
 
     suspend fun updateUpcomingTransaction(upcomingTransaction: UpcomingTransaction) =
         transactionDao.updateUpcomingTransaction(upcomingTransaction)

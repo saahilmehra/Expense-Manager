@@ -9,7 +9,7 @@
         android:id="@+id/tab"
         android:name="com.sahilmehra.expensemanager.ui.tablayout.TabFragment"
         android:label="fragment_tab"
-        tools:layout="@layout/fragment_tab" >
+        tools:layout="@layout/fragment_tab">
         <action
             android:id="@+id/action_tab_to_addTransaction"
             app:destination="@id/addTransaction" />
@@ -19,12 +19,18 @@
         <action
             android:id="@+id/action_tab_to_past_transactions_list"
             app:destination="@id/past_transactions_list" />
+        <action
+            android:id="@+id/action_tab_to_month_detail"
+            app:destination="@id/month_detail" />
+        <action
+            android:id="@+id/action_tab_to_month_list"
+            app:destination="@id/month_list" />
     </fragment>
     <fragment
         android:id="@+id/addTransaction"
         android:name="com.sahilmehra.expensemanager.ui.AddTransactionFragment"
         android:label="fragment_add_transaction"
-        tools:layout="@layout/fragment_add_transaction" >
+        tools:layout="@layout/fragment_add_transaction">
         <action
             android:id="@+id/action_addTransaction_to_tab"
             app:destination="@id/tab"
@@ -41,4 +47,22 @@
         android:name="com.sahilmehra.expensemanager.ui.PastTransactionsListFragment"
         android:label="fragment_past_transactions_list"
         tools:layout="@layout/fragment_past_transactions_list" />
+    <fragment
+        android:id="@+id/month_detail"
+        android:name="com.sahilmehra.expensemanager.ui.MonthFragment"
+        android:label="fragment_month"
+        tools:layout="@layout/fragment_month">
+        <argument
+            android:name="monthId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/month_list"
+        android:name="com.sahilmehra.expensemanager.ui.MonthsListFragment"
+        android:label="fragment_months_list"
+        tools:layout="@layout/fragment_months_list">
+        <action
+            android:id="@+id/action_month_list_to_month_detail"
+            app:destination="@id/month_detail" />
+    </fragment>
 </navigation>

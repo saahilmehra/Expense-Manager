@@ -4,23 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:orientation="vertical"
-    tools:context=".ui.tablayout.HomeFragment"
-    android:fillViewport="true">
+    tools:context=".ui.tablayout.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <View
-            android:id="@+id/divider5"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="24dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvOthers" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineLeft"
@@ -35,106 +25,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="20dp" />
-
-        <TextView
-            android:id="@+id/tvUpcomingLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="UPCOMING TRANSACTIONS"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/divider5" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvUpcomingTransactions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/tvUpcomingLabel"
-            tools:itemCount="5"
-            tools:listitem="@layout/home_list_item" />
-
-        <Button
-            android:id="@+id/btnUpcomingNext"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="VIEW ALL"
-            android:textSize="18sp"
-            app:icon="@drawable/next"
-            app:iconGravity="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-            app:layout_constraintTop_toBottomOf="@+id/rvUpcomingTransactions" />
-
-        <View
-            android:id="@+id/divider6"
-            android:layout_width="409dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnUpcomingNext" />
-
-        <TextView
-            android:id="@+id/tvPastLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="PAST TRANSACTIONS"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/divider6" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPastTransactions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/tvPastLabel"
-            tools:itemCount="5"
-            tools:listitem="@layout/home_list_item" />
-
-        <Button
-            android:id="@+id/btnPastNext"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="VIEW ALL"
-            android:textSize="18sp"
-            app:icon="@drawable/next"
-            app:iconGravity="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-            app:layout_constraintTop_toBottomOf="@+id/rvPastTransactions" />
-
-        <View
-            android:id="@+id/divider7"
-            android:layout_width="409dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnPastNext" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMonths"
-            android:layout_width="0dp"
-            android:layout_height="302dp"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/divider7"
-            tools:itemCount="3" />
 
         <TextView
             android:id="@+id/tvNetBalancelabel"
@@ -249,6 +139,15 @@
             app:layout_constraintTop_toTopOf="@+id/tvOthersLabel"
             tools:text="35000.00" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="tvOthers,tvCash,tvCard,tvCheque,tvNetBalancelabel,tvNetBalance"
+            tools:layout_editor_absoluteX="165dp"
+            tools:layout_editor_absoluteY="5dp" />
+
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
@@ -258,6 +157,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
+            android:indeterminate="false"
             app:layout_constraintBottom_toTopOf="@+id/divider5"
             app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
             app:layout_constraintHorizontal_bias="0.0"
@@ -265,14 +165,129 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvOthers" />
+
+        <TextView
+            android:id="@+id/tvUpcomingLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="UPCOMING TRANSACTIONS"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/divider5" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUpcomingTransactions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/tvUpcomingLabel"
+            tools:itemCount="5"
+            tools:listitem="@layout/home_list_item" />
+
+        <Button
+            android:id="@+id/btnUpcomingNext"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:barrierDirection="end"
-            app:constraint_referenced_ids="tvOthers,tvCash,tvCard,tvCheque,tvNetBalancelabel,tvNetBalance"
-            tools:layout_editor_absoluteX="165dp"
-            tools:layout_editor_absoluteY="5dp" />
+            android:text="VIEW ALL"
+            android:textSize="18sp"
+            app:icon="@drawable/next"
+            app:iconGravity="textEnd"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintTop_toBottomOf="@+id/rvUpcomingTransactions" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="409dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnUpcomingNext" />
+
+        <TextView
+            android:id="@+id/tvPastLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="PAST TRANSACTIONS"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/divider6" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPastTransactions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/tvPastLabel"
+            tools:itemCount="5"
+            tools:listitem="@layout/home_list_item" />
+
+        <Button
+            android:id="@+id/btnPastNext"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VIEW ALL"
+            android:textSize="18sp"
+            app:icon="@drawable/next"
+            app:iconGravity="textEnd"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintTop_toBottomOf="@+id/rvPastTransactions" />
+
+        <View
+            android:id="@+id/divider7"
+            android:layout_width="409dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnPastNext" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMonths"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/divider7"
+            tools:itemCount="3"
+            tools:listitem="@layout/month_list_item" />
+
+        <Button
+            android:id="@+id/btnMonthsNext"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VIEW ALL MONTHS"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            app:icon="@drawable/next"
+            app:iconGravity="textEnd"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintTop_toBottomOf="@+id/rvMonths" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
