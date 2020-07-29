@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_tab_to_month_list"
             app:destination="@id/month_list" />
+        <action
+            android:id="@+id/action_tab_to_calendar"
+            app:destination="@id/calendar" />
     </fragment>
     <fragment
         android:id="@+id/addTransaction"
@@ -41,12 +44,20 @@
         android:id="@+id/upcoming_transactions_list"
         android:name="com.sahilmehra.expensemanager.ui.UpcomingTransactionsListFragment"
         android:label="fragment_upcoming_transactions_list"
-        tools:layout="@layout/fragment_upcoming_transactions_list" />
+        tools:layout="@layout/fragment_upcoming_transactions_list" >
+        <action
+            android:id="@+id/action_upcoming_transactions_list_to_calendar"
+            app:destination="@id/calendar" />
+    </fragment>
     <fragment
         android:id="@+id/past_transactions_list"
         android:name="com.sahilmehra.expensemanager.ui.PastTransactionsListFragment"
         android:label="fragment_past_transactions_list"
-        tools:layout="@layout/fragment_past_transactions_list" />
+        tools:layout="@layout/fragment_past_transactions_list" >
+        <action
+            android:id="@+id/action_past_transactions_list_to_calendar"
+            app:destination="@id/calendar" />
+    </fragment>
     <fragment
         android:id="@+id/month_detail"
         android:name="com.sahilmehra.expensemanager.ui.MonthFragment"
@@ -55,6 +66,9 @@
         <argument
             android:name="monthId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_month_detail_to_calendar"
+            app:destination="@id/calendar" />
     </fragment>
     <fragment
         android:id="@+id/month_list"
@@ -64,5 +78,13 @@
         <action
             android:id="@+id/action_month_list_to_month_detail"
             app:destination="@id/month_detail" />
+        <action
+            android:id="@+id/action_month_list_to_calendar"
+            app:destination="@id/calendar" />
     </fragment>
+    <fragment
+        android:id="@+id/calendar"
+        android:name="com.sahilmehra.expensemanager.ui.CalendarFragment"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" />
 </navigation>

@@ -34,7 +34,9 @@ class PastTransactionsListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         with(rvPastTransactions) {
-            adapter = PastTransactionsListAdapter(requireContext())
+            adapter = PastTransactionsListAdapter(requireContext()) {
+                viewModel.deletePastTransaction(it)
+            }
             layoutManager = LinearLayoutManager(context)
         }
 

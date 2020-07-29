@@ -34,7 +34,9 @@ class UpcomingTransactionsListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         with(rvUpcomingTransactions) {
-            adapter = UpcomingTransactionsListAdapter(requireContext())
+            adapter = UpcomingTransactionsListAdapter(requireContext()) {
+                viewModel.deleteUpcomingTransaction(it)
+            }
             layoutManager = LinearLayoutManager(context)
         }
 

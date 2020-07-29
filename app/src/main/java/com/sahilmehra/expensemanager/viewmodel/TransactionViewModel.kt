@@ -117,4 +117,16 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         if (monthId.value != id)
             _monthId.value = id
     }
+
+    fun deletePastTransaction(pastTransaction: PastTransaction) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deletePastTransaction(pastTransaction)
+        }
+    }
+
+    fun deleteUpcomingTransaction(upcomingTransaction: UpcomingTransaction) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteUpcomingTransaction(upcomingTransaction)
+        }
+    }
 }

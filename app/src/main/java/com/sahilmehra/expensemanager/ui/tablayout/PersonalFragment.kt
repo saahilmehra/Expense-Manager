@@ -35,12 +35,15 @@ class PersonalFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         with(rvUpcomingTransactions) {
-            adapter = UpcomingTransactionsListAdapter(requireContext())
+            adapter = UpcomingTransactionsListAdapter(requireContext()) {
+                viewModel.deleteUpcomingTransaction(it)
+            }
             layoutManager = LinearLayoutManager(context)
         }
 
         with(rvPastTransactions) {
-            adapter = PastTransactionsListAdapter(requireContext())
+            adapter =
+                PastTransactionsListAdapter(requireContext()) { viewModel.deletePastTransaction(it) }
             layoutManager = LinearLayoutManager(context)
         }
 

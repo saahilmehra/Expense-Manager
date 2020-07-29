@@ -40,7 +40,8 @@ class MonthFragment : Fragment() {
         viewModel.setMonthId(monthId)
 
         with(rvMonthTransactions) {
-            adapter = PastTransactionsListAdapter(requireContext())
+            adapter =
+                PastTransactionsListAdapter(requireContext()) { viewModel.deletePastTransaction(it) }
             layoutManager = LinearLayoutManager(context)
         }
 
@@ -49,18 +50,12 @@ class MonthFragment : Fragment() {
         })
 
         viewModel.expenseByMonth.observe(viewLifecycleOwner, Observer {
-            expense = if (it != null)
-                it
-            else
-                0F
+            expense = it ?: 0F
             setAmount()
         })
 
         viewModel.incomeByMonth.observe(viewLifecycleOwner, Observer {
-            income = if (it != null)
-                it
-            else
-                0F
+            income = it ?: 0F
             setAmount()
         })
     }
