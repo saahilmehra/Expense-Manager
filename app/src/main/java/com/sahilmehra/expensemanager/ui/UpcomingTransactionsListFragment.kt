@@ -40,7 +40,8 @@ class UpcomingTransactionsListFragment : Fragment() {
                 {
                     findNavController().navigate(
                         UpcomingTransactionsListFragmentDirections.actionUpcomingTransactionsListToAddTransaction(
-                            it
+                            it,
+                            1
                         )
                     )
                 }) {

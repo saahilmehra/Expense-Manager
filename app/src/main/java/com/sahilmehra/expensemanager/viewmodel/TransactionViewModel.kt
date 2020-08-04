@@ -37,10 +37,6 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     val monthId: LiveData<String>
         get() = _monthId
 
-    private val _transactionId = MutableLiveData<Long>(0)
-    val transactionId: LiveData<Long>
-        get() = _transactionId
-
     val expenseByMonth: LiveData<Float> = Transformations.switchMap(_monthId) { id ->
         val startDateString = "01$id"
         val dateFormat = SimpleDateFormat("ddMMyyyy")
@@ -100,15 +96,35 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
             repo.getPastTransactionsByMonth(startDate, endDate)
         }
 
+    private val _transactionId = MutableLiveData<Long>(0)
+    val transactionId: LiveData<Long>
+        get() = _transactionId
+
+    val pastTransaction: LiveData<PastTransaction> =
+        Transformations.switchMap(_transactionId) { id ->
+            repo.getPastTransaction(id)
+        }
+
+    val upcomingTransaction: LiveData<UpcomingTransaction> =
+        Transformations.switchMap(_transactionId) { id ->
+            repo.getUpcomingTransaction(id)
+        }
+
     fun insertPastTransaction(transaction: PastTransaction) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insertPastTransaction(transaction)
+            if (_transactionId.value == 0L)
+                repo.insertPastTransaction(transaction)
+            else
+                repo.updatePastTransaction(transaction)
         }
     }
 
     fun insertUpcomingTransaction(transaction: UpcomingTransaction) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insertUpcomingTransaction(transaction)
+            if (_transactionId.value == 0L)
+                repo.insertUpcomingTransaction(transaction)
+            else
+                repo.updateUpcomingTransaction(transaction)
         }
     }
 
@@ -121,6 +137,11 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     fun setMonthId(id: String) {
         if (monthId.value != id)
             _monthId.value = id
+    }
+
+    fun setTransactionId(id: Long) {
+        if (transactionId.value != id)
+            _transactionId.value = id
     }
 
     fun deletePastTransaction(pastTransaction: PastTransaction) {

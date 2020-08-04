@@ -176,6 +176,11 @@ class AddTransactionFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val transactionId = AddTransactionFragmentArgs.fromBundle(requireArguments()).transactionId
+        viewModel.setTransactionId(transactionId)
+
+        val type = AddTransactionFragmentArgs.fromBundle(requireArguments()).type
+
         cbRecurringTransaction.setOnClickListener {
             recurring = cbRecurringTransaction.isChecked
 
@@ -188,6 +193,71 @@ class AddTransactionFragment : Fragment() {
                 tilTo.visibility = View.GONE
                 tilRecurringPeriod.visibility = View.GONE
             }
+        }
+
+        when (type) {
+            1 -> viewModel.upcomingTransaction.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer {
+                    if (it != null)
+                        setUpcomingTransaction(it)
+                })
+            2 -> viewModel.pastTransaction.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it != null)
+                    setPastTransaction(it)
+            })
+        }
+    }
+
+    private fun setUpcomingTransaction(upcomingTransaction: UpcomingTransaction) {
+        cbRecurringTransaction.isChecked = true
+        cbRecurringTransaction.isEnabled = false
+        recurring = true
+        tilFrom.visibility = View.VISIBLE
+        tilTo.visibility = View.VISIBLE
+        tilRecurringPeriod.visibility = View.VISIBLE
+
+        with(upcomingTransaction) {
+            tietTransactionName.setText(name)
+            tietAmount.setText("$amount")
+            tietTransactionDate.text
+
+            transactionDate = date
+            tietTransactionDate.setText(transactionDate.readableFormat())
+
+            fromDate = from
+            tietFrom.setText(fromDate.readableFormat())
+
+            toDate = to
+            tietTo.setText(toDate.readableFormat())
+
+            tietRecurringPeriod.setText("$recurringPeriod")
+            spinnerCategory.setSelection(category)
+            spinnerTransactionType.setSelection(mode)
+            tietComments.setText("$comments")
+        }
+    }
+
+    private fun setPastTransaction(pastTransaction: PastTransaction) {
+        cbRecurringTransaction.isChecked = false
+        cbRecurringTransaction.isEnabled = false
+        recurring = false
+
+        tilFrom.visibility = View.GONE
+        tilTo.visibility = View.GONE
+        tilRecurringPeriod.visibility = View.GONE
+
+        with(pastTransaction) {
+            tietTransactionName.setText(name)
+            tietAmount.setText("$amount")
+            tietTransactionDate.text
+
+            transactionDate = date
+            tietTransactionDate.setText(transactionDate.readableFormat())
+
+            spinnerCategory.setSelection(category)
+            spinnerTransactionType.setSelection(mode)
+            tietComments.setText("$comments")
         }
     }
 
@@ -220,7 +290,6 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun combineData(transactionType: TransactionType) {
-        val calendar: Calendar = Calendar.getInstance()
 
         if (tietTransactionName.text.isEmpty() || tietAmount.text.isEmpty() || tietTransactionDate.text.isEmpty() || tietComments.text.isEmpty())
             Toast.makeText(requireContext(), "Please fill all fields!", Toast.LENGTH_LONG).show()
@@ -231,7 +300,7 @@ class AddTransactionFragment : Fragment() {
                         .show()
                 else {
                     val upcomingTransaction = UpcomingTransaction(
-                        0,
+                        viewModel.transactionId.value!!,
                         tietTransactionName.text.toString().trim(),
                         tietAmount.text.toString().toFloat(),
                         transactionDate,
@@ -252,7 +321,7 @@ class AddTransactionFragment : Fragment() {
                 }
             else {
                 val pastTransaction = PastTransaction(
-                    0,
+                    viewModel.transactionId.value!!,
                     tietTransactionName.text.toString().trim(),
                     tietAmount.text.toString().toFloat(),
                     transactionDate,

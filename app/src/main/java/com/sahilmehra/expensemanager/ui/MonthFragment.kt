@@ -46,7 +46,7 @@ class MonthFragment : Fragment() {
                     requireContext(),
                     {
                         findNavController().navigate(
-                            MonthFragmentDirections.actionMonthDetailToAddTransaction(it)
+                            MonthFragmentDirections.actionMonthDetailToAddTransaction(it, 2)
                         )
                     }) { viewModel.deletePastTransaction(it) }
             layoutManager = LinearLayoutManager(context)

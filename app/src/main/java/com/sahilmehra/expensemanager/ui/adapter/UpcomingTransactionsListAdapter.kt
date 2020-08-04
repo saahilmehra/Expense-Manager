@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -55,6 +56,8 @@ class UpcomingTransactionsListAdapter(
                     when (item.itemId) {
                         R.id.completeItem -> {
                             Log.e("upcoming value", "upcoming complete")
+                            Toast.makeText(context, "Transaction Completed", Toast.LENGTH_SHORT)
+                                .show()
                         }
                         R.id.editUpcomingItem -> {
                             editListener.invoke(getItem(adapterPosition).id)

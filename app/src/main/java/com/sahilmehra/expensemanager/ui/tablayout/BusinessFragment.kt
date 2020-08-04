@@ -38,7 +38,7 @@ class BusinessFragment : Fragment() {
         with(rvUpcomingTransactions) {
             adapter = UpcomingTransactionsListAdapter(requireContext(), {
                 findNavController().navigate(
-                    TabFragmentDirections.actionTabToAddTransaction(it)
+                    TabFragmentDirections.actionTabToAddTransaction(it, 1)
                 )
             }) {
                 viewModel.deleteUpcomingTransaction(it)
@@ -50,7 +50,7 @@ class BusinessFragment : Fragment() {
             adapter =
                 PastTransactionsListAdapter(requireContext(), {
                     findNavController().navigate(
-                        TabFragmentDirections.actionTabToAddTransaction(it)
+                        TabFragmentDirections.actionTabToAddTransaction(it, 2)
                     )
                 }) { viewModel.deletePastTransaction(it) }
             layoutManager = LinearLayoutManager(context)

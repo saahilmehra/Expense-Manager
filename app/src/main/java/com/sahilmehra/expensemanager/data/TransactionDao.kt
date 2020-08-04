@@ -10,13 +10,13 @@ interface TransactionDao {
     fun getUpcomingTransactions(): LiveData<List<UpcomingTransaction>>
 
     @Query("SELECT * FROM past_transaction")
-    fun getPastTransaction(): LiveData<List<PastTransaction>>
+    fun getPastTransactions(): LiveData<List<PastTransaction>>
 
-    @Query("SELECT * from upcoming_transaction WHERE category= :category")
-    fun getUpcomingTransactionsByCategory(category: Int): LiveData<List<UpcomingTransaction>>
+    @Query("SELECT * FROM past_transaction where id= :id")
+    fun getPastTransaction(id: Long): LiveData<PastTransaction>
 
-    @Query("SELECT * from past_transaction WHERE category= :category")
-    fun getPastTransactionsByCategory(category: Int): LiveData<List<PastTransaction>>
+    @Query("SELECT * FROM upcoming_transaction where id= :id")
+    fun getUpcomingTransaction(id: Long): LiveData<UpcomingTransaction>
 
     @Query("SELECT SUM(amount) FROM past_transaction WHERE mode= :transactionMode AND type=1")
     fun getAmountByMode(transactionMode: Int): LiveData<Float>

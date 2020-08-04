@@ -11,13 +11,14 @@ class TransactionRepository(context: Application) {
         return transactionDao.getUpcomingTransactions()
     }
 
-    fun getPastTransactions(): LiveData<List<PastTransaction>> = transactionDao.getPastTransaction()
+    fun getPastTransactions(): LiveData<List<PastTransaction>> =
+        transactionDao.getPastTransactions()
 
-    fun getUpcomingTransactionsByCategory(category: Int): LiveData<List<UpcomingTransaction>> =
-        transactionDao.getUpcomingTransactionsByCategory(category)
+    fun getPastTransaction(id: Long): LiveData<PastTransaction> =
+        transactionDao.getPastTransaction(id)
 
-    fun getPastTransactionsByCategory(category: Int): LiveData<List<PastTransaction>> =
-        transactionDao.getPastTransactionsByCategory(category)
+    fun getUpcomingTransaction(id: Long): LiveData<UpcomingTransaction> =
+        transactionDao.getUpcomingTransaction(id)
 
     fun getAmountByMode(transactionMode: Int): LiveData<Float> =
         transactionDao.getAmountByMode(transactionMode)
