@@ -10,11 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sahilmehra.expensemanager.R
+import com.sahilmehra.expensemanager.data.PastTransaction
 import com.sahilmehra.expensemanager.ui.adapter.MonthsAdapter
 import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class MonthsListFragment : Fragment() {
+class MonthsListFragment : Fragment(), MonthsAdapter.MonthCardTransactions {
     private lateinit var viewModel: TransactionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,7 @@ class MonthsListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         with(rvMonths) {
-            adapter = MonthsAdapter(requireContext()) {
+            adapter = MonthsAdapter(this@MonthsListFragment, requireContext()) {
                 findNavController().navigate(
                     MonthsListFragmentDirections.actionMonthListToMonthDetail(
                         it
@@ -49,4 +50,7 @@ class MonthsListFragment : Fragment() {
             (rvMonths.adapter as MonthsAdapter).submitList(it)
         })
     }
+
+    override suspend fun getPastTransactionsByMonth(monthId: String): List<PastTransaction> =
+        viewModel.getTrans(monthId)
 }

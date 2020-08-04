@@ -1,7 +1,6 @@
 package com.sahilmehra.expensemanager.ui.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +19,7 @@ import kotlinx.android.synthetic.main.transactions_list_item.*
 
 class PastTransactionsListAdapter(
     private val context: Context,
+    private val editListener: (Long) -> Unit,
     private val deleteListener: (PastTransaction) -> Unit
 ) :
     ListAdapter<PastTransaction, PastTransactionsListAdapter.ViewHolder>(DiffCallbackPtList()) {
@@ -50,7 +50,7 @@ class PastTransactionsListAdapter(
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.editPastItem -> {
-                            Log.e("past_value", "past edit")
+                            editListener.invoke(getItem(adapterPosition).id)
                         }
                         R.id.deletePastItem -> {
                             deleteListener.invoke(getItem(adapterPosition))

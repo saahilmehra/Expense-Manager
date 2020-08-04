@@ -46,16 +46,6 @@
             app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
             app:layout_constraintTop_toTopOf="@+id/tvMonthName" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMonthTransactions"
-            android:layout_width="0dp"
-            android:layout_height="192dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/tvMonthName"
-            tools:listitem="@layout/month_transactions_list_item" />
-
         <View
             android:id="@+id/divider3"
             android:layout_width="0dp"
@@ -78,6 +68,16 @@
             app:iconGravity="textEnd"
             app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
             app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMonthTransactions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/tvMonthName"
+            tools:listitem="@layout/month_transactions_list_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

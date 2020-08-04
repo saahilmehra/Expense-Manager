@@ -12,7 +12,7 @@ import com.sahilmehra.expensemanager.R
 import com.sahilmehra.expensemanager.data.PastTransaction
 import com.sahilmehra.expensemanager.data.TransactionType
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.home_list_item.*
+import kotlinx.android.synthetic.main.month_transactions_list_item.*
 
 class MonthsInnerListAdapter(
     private val context: Context
@@ -37,19 +37,19 @@ class MonthsInnerListAdapter(
         RecyclerView.ViewHolder(containerView), LayoutContainer {
         fun bind(pastTransaction: PastTransaction) {
             with(pastTransaction) {
-                tvName.text = name
+                tvTransactionName.text = name
 
                 if (type == TransactionType.Income.ordinal) {
-                    tvAmount.text = "+$amount"
-                    tvAmount.setTextColor(
+                    tvTransactionAmount.text = "+$amount"
+                    tvTransactionAmount.setTextColor(
                         ContextCompat.getColor(
                             context,
                             R.color.income_text_color
                         )
                     )
                 } else {
-                    tvAmount.text = "-$amount"
-                    tvAmount.setTextColor(
+                    tvTransactionAmount.text = "-$amount"
+                    tvTransactionAmount.setTextColor(
                         ContextCompat.getColor(
                             context,
                             R.color.expense_text_color

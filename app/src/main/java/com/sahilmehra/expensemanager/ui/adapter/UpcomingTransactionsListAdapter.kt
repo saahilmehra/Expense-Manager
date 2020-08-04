@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.transactions_list_item.*
 
 class UpcomingTransactionsListAdapter(
     private val context: Context,
+    private val editListener: (Long) -> Unit,
     private val deleteListener: (UpcomingTransaction) -> Unit
 ) :
     ListAdapter<UpcomingTransaction, UpcomingTransactionsListAdapter.ViewHolder>(DiffCallbackUtList()) {
@@ -56,7 +57,7 @@ class UpcomingTransactionsListAdapter(
                             Log.e("upcoming value", "upcoming complete")
                         }
                         R.id.editUpcomingItem -> {
-                            Log.e("upcoming_value", "upcoming edit")
+                            editListener.invoke(getItem(adapterPosition).id)
                         }
                         R.id.deleteUpcomingItem -> {
                             deleteListener.invoke(getItem(adapterPosition))

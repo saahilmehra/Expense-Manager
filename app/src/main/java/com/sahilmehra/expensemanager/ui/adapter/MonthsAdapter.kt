@@ -5,19 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sahilmehra.expensemanager.R
 import com.sahilmehra.expensemanager.data.Month
+import com.sahilmehra.expensemanager.data.PastTransaction
 import com.sahilmehra.expensemanager.monthName
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.month_list_item.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class MonthsAdapter(
-    private val context: Context,
+    private val monthCardTransactions: MonthCardTransactions,
+    private val context1: Context,
     private val listener: (String) -> Unit
 ) :
     ListAdapter<Month, MonthsAdapter.ViewHolder>(DiffCallbackMonth()) {
+
+    interface MonthCardTransactions {
+        suspend fun getPastTransactionsByMonth(monthId: String): List<PastTransaction>
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -35,8 +46,25 @@ class MonthsAdapter(
     inner class ViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView), LayoutContainer {
         fun bind(month: Month) {
-            with(month) {
-                tvMonthName.text = id.substring(0, 2).monthName()
+            tvMonthName.text = month.id.substring(0, 2).monthName()
+
+            with(rvMonthTransactions) {
+                adapter = MonthsInnerListAdapter(
+                    context1
+                )
+                layoutManager = LinearLayoutManager(context)
+            }
+
+            CoroutineScope(Dispatchers.Main).launch {
+                val task = async(Dispatchers.IO) {
+                    monthCardTransactions.getPastTransactionsByMonth(month.id)
+                }
+
+                val list = task.await()
+
+                if (list != null) {
+                    (rvMonthTransactions.adapter as MonthsInnerListAdapter).submitList(list)
+                }
             }
 
             btnMonthListNext.setOnClickListener { listener.invoke(month.id) }

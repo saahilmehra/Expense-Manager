@@ -1,5 +1,6 @@
 package com.sahilmehra.expensemanager.ui
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
 import com.sahilmehra.expensemanager.R
 import com.sahilmehra.expensemanager.data.*
+import com.sahilmehra.expensemanager.readableFormat
 import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_add_transaction.*
 import java.text.SimpleDateFormat
@@ -25,6 +27,10 @@ import java.util.*
 class AddTransactionFragment : Fragment() {
     private lateinit var viewModel: TransactionViewModel
     private var recurring = false
+    private val calendar = Calendar.getInstance()
+    private var transactionDate: Date = calendar.time
+    private var fromDate: Date = calendar.time
+    private var toDate: Date = calendar.time
 
     private lateinit var tilTransactionName: TextInputLayout
     private lateinit var tilAmount: TextInputLayout
@@ -108,6 +114,63 @@ class AddTransactionFragment : Fragment() {
         btnIncome.setOnClickListener {
             combineData(TransactionType.Income)
         }
+
+        tietTransactionDate.setOnClickListener {
+            showDatePicker(1)
+        }
+
+        tietFrom.setOnClickListener {
+            showDatePicker(2)
+        }
+
+        tietTo.setOnClickListener {
+            showDatePicker(3)
+        }
+    }
+
+    private fun showDatePicker(dateId: Int) {
+        val dateFragment = DatePickerFragment()
+
+        val calendar = Calendar.getInstance()
+        val args = Bundle()
+        args.putInt("year", calendar.get(Calendar.YEAR))
+        args.putInt("month", calendar.get(Calendar.MONTH))
+        args.putInt("day", calendar.get(Calendar.DAY_OF_MONTH))
+
+        dateFragment.arguments = args
+
+        when (dateId) {
+            1 -> dateFragment.setCallBack(onDate1)
+            2 -> dateFragment.setCallBack(onDate2)
+            3 -> dateFragment.setCallBack(onDate3)
+        }
+
+        fragmentManager?.let { dateFragment.show(it, "Date Picker") }
+    }
+
+    private val onDate1: DatePickerDialog.OnDateSetListener =
+        DatePickerDialog.OnDateSetListener { viewDate, year, monthOfYear, dayOfMonth ->
+            transactionDate = getSelectedDate(dayOfMonth, monthOfYear, year)
+            tietTransactionDate.setText(transactionDate.readableFormat())
+        }
+
+    private val onDate2: DatePickerDialog.OnDateSetListener =
+        DatePickerDialog.OnDateSetListener { viewDate, year, monthOfYear, dayOfMonth ->
+            fromDate = getSelectedDate(dayOfMonth, monthOfYear, year)
+            tietFrom.setText(fromDate.readableFormat())
+        }
+
+    private val onDate3: DatePickerDialog.OnDateSetListener =
+        DatePickerDialog.OnDateSetListener { viewDate, year, monthOfYear, dayOfMonth ->
+            toDate = getSelectedDate(dayOfMonth, monthOfYear, year)
+            tietTo.setText(toDate.readableFormat())
+        }
+
+    private fun getSelectedDate(day: Int, month: Int, year: Int): Date {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day)
+        val date: Date = calendar.time
+        return date
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -171,9 +234,9 @@ class AddTransactionFragment : Fragment() {
                         0,
                         tietTransactionName.text.toString().trim(),
                         tietAmount.text.toString().toFloat(),
-                        calendar.time,
-                        calendar.time,
-                        calendar.time,
+                        transactionDate,
+                        fromDate,
+                        toDate,
                         tietRecurringPeriod.text.toString().toInt(),
                         tietComments.text.toString().trim(),
                         spinnerCategory.selectedItemPosition,
@@ -182,8 +245,8 @@ class AddTransactionFragment : Fragment() {
                     )
                     viewModel.insertUpcomingTransaction(upcomingTransaction)
 
-                    insertMonth(calendar.time) //transaction date
-                    insertMonth(calendar.time) //transaction from date
+                    insertMonth(transactionDate) //transaction date
+                    //insertMonth(fromDate) //transaction from date
 
                     findNavController().navigate(R.id.action_addTransaction_to_tab)
                 }
@@ -192,7 +255,7 @@ class AddTransactionFragment : Fragment() {
                     0,
                     tietTransactionName.text.toString().trim(),
                     tietAmount.text.toString().toFloat(),
-                    calendar.time,
+                    transactionDate,
                     tietComments.text.toString().trim(),
                     spinnerCategory.selectedItemPosition,
                     spinnerTransactionType.selectedItemPosition,
@@ -200,7 +263,7 @@ class AddTransactionFragment : Fragment() {
                 )
                 viewModel.insertPastTransaction(pastTransaction)
 
-                insertMonth(calendar.time) //transaction date
+                insertMonth(transactionDate) //transaction date
 
                 findNavController().navigate(R.id.action_addTransaction_to_tab)
             }

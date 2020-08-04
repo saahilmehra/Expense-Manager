@@ -39,6 +39,9 @@ interface TransactionDao {
     @Query("SELECT * FROM past_transaction WHERE date BETWEEN :from AND :to")
     fun getPastTransactionsByMonth(from: Date, to: Date): LiveData<List<PastTransaction>>
 
+    @Query("SELECT * FROM past_transaction WHERE date BETWEEN :from AND :to")
+    suspend fun getPastTransactionsByMonthTemp(from: Date, to: Date): List<PastTransaction>
+
     @Query("SELECT SUM(amount) FROM past_transaction WHERE date BETWEEN :from AND :to AND type=0")
     fun getExpenseByMonth(from: Date, to: Date): LiveData<Float>
 

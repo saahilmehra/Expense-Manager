@@ -39,6 +39,9 @@ class TransactionRepository(context: Application) {
     fun getPastTransactionsByMonth(from: Date, to: Date): LiveData<List<PastTransaction>> =
         transactionDao.getPastTransactionsByMonth(from, to)
 
+    suspend fun getPastTransactionsByMonthTemp(from: Date, to: Date): List<PastTransaction> =
+        transactionDao.getPastTransactionsByMonthTemp(from, to)
+
     fun getExpenseByMonth(from: Date, to: Date): LiveData<Float> =
         transactionDao.getExpenseByMonth(from, to)
 

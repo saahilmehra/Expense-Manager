@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.sahilmehra.expensemanager.data.*
+import com.sahilmehra.expensemanager.readableFormat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -36,6 +37,10 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     val monthId: LiveData<String>
         get() = _monthId
 
+    private val _transactionId = MutableLiveData<Long>(0)
+    val transactionId: LiveData<Long>
+        get() = _transactionId
+
     val expenseByMonth: LiveData<Float> = Transformations.switchMap(_monthId) { id ->
         val startDateString = "01$id"
         val dateFormat = SimpleDateFormat("ddMMyyyy")
@@ -46,11 +51,11 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
 
         calendar.time = convertedDate
         val startDate = calendar.time
-        Log.e("startDatePast", startDate.toString())
+        Log.e("startDatePast", startDate.readableFormat())
 
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
         val endDate = calendar.time
-        Log.e("endDatePast", endDate.toString())
+        Log.e("endDatePast", endDate.readableFormat())
 
         repo.getExpenseByMonth(startDate, endDate)
     }
@@ -128,5 +133,24 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch(Dispatchers.IO) {
             repo.deleteUpcomingTransaction(upcomingTransaction)
         }
+    }
+
+    suspend fun getTrans(monthId: String): List<PastTransaction> {
+        val startDateString = "01$monthId"
+        val dateFormat = SimpleDateFormat("ddMMyyyy")
+        val convertedDate: Date = dateFormat.parse(startDateString)
+        Log.e("startDateStringPast", convertedDate.toString())
+
+        val calendar = Calendar.getInstance()
+
+        calendar.time = convertedDate
+        val startDate = calendar.time
+        Log.e("startDatePast", startDate.toString())
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val endDate = calendar.time
+        Log.e("endDatePast", endDate.toString())
+
+        return repo.getPastTransactionsByMonthTemp(startDate, endDate)
     }
 }

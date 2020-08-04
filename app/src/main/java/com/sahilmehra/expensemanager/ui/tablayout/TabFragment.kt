@@ -39,7 +39,7 @@ class TabFragment : Fragment() {
         }.attach()
 
         fabAddTransaction.setOnClickListener {
-            findNavController().navigate(R.id.action_tab_to_addTransaction)
+            findNavController().navigate(TabFragmentDirections.actionTabToAddTransaction(0))
         }
     }
 }

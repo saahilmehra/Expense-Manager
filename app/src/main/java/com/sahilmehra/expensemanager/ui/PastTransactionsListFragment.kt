@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sahilmehra.expensemanager.R
 import com.sahilmehra.expensemanager.ui.adapter.PastTransactionsListAdapter
@@ -34,7 +35,15 @@ class PastTransactionsListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         with(rvPastTransactions) {
-            adapter = PastTransactionsListAdapter(requireContext()) {
+            adapter = PastTransactionsListAdapter(
+                requireContext(),
+                {
+                    findNavController().navigate(
+                        PastTransactionsListFragmentDirections.actionPastTransactionsListToAddTransaction(
+                            it
+                        )
+                    )
+                }) {
                 viewModel.deletePastTransaction(it)
             }
             layoutManager = LinearLayoutManager(context)
