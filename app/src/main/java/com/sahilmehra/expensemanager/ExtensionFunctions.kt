@@ -1,11 +1,37 @@
 package com.sahilmehra.expensemanager
 
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
 fun Date.readableFormat(): String {
     val dateFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault())
     return dateFormat.format(this)
+}
+
+fun String.firstDayOfMonth(): Date {
+    val startDateString = "01$this"
+    val dateFormat = SimpleDateFormat("ddMMyyyy")
+    val convertedDate: Date = dateFormat.parse(startDateString)
+    Log.e("startDateStringPast", convertedDate.toString())
+
+    val calendar = Calendar.getInstance()
+
+    calendar.time = convertedDate
+
+    return calendar.time
+}
+
+fun String.lastDayOfMonth(): Date {
+    val startDateString = "01$this"
+    val dateFormat = SimpleDateFormat("ddMMyyyy")
+    val convertedDate: Date = dateFormat.parse(startDateString)
+
+    val calendar = Calendar.getInstance()
+    calendar.time = convertedDate
+    calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+
+    return calendar.time
 }
 
 fun String.monthName(): String =

@@ -1,10 +1,10 @@
 package com.sahilmehra.expensemanager.ui
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -342,9 +342,11 @@ class AddTransactionFragment : Fragment() {
         val dateFormat = SimpleDateFormat("MMyyyy", Locale.getDefault())
         val monthId: String = dateFormat.format(date)
 
-        Log.e("monthId", monthId)
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("EXPENSE_MANAGER", Context.MODE_PRIVATE)
+        val budget = sharedPreferences.getFloat("MONTHLY_BUDGET", 1000F)
 
-        val monthData = Month(monthId, 35000F)
+        val monthData = Month(monthId, budget)
 
         viewModel.insertMonth(monthData)
     }

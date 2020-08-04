@@ -14,15 +14,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/colorView"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:background="@color/income_text_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tvMonthName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:textAllCaps="true"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/colorView"
             tools:text="July" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -47,6 +56,7 @@
             android:textAllCaps="true"
             android:textColor="@color/expense_text_color"
             android:textSize="16sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/tvMonthName"
             app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
             app:layout_constraintTop_toTopOf="@+id/tvMonthName" />

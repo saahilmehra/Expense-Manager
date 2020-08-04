@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +24,8 @@ class HomeFragment : Fragment(), MonthsAdapter.MonthCardTransactions {
     private var card: Float = 0.0F
     private var cheque: Float = 0.0F
     private var others: Float = 0.0F
+    private var totalIncome: Float = 0.0F
+    private var totalExpense: Float = 0.0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,26 +70,32 @@ class HomeFragment : Fragment(), MonthsAdapter.MonthCardTransactions {
         })
 
         viewModel.amountInCash.observe(viewLifecycleOwner, Observer {
-            if (it != null)
-                cash = it
+            cash = it ?: 0F
             setAmount()
         })
 
         viewModel.amountInCard.observe(viewLifecycleOwner, Observer {
-            if (it != null)
-                card = it
+            cheque = it ?: 0F
             setAmount()
         })
 
         viewModel.amountInCheque.observe(viewLifecycleOwner, Observer {
-            if (it != null)
-                cheque = it
+            cheque = it ?: 0F
             setAmount()
         })
 
         viewModel.amountInOthers.observe(viewLifecycleOwner, Observer {
-            if (it != null)
-                others = it
+            others = it ?: 0F
+            setAmount()
+        })
+
+        viewModel.totalIncome.observe(viewLifecycleOwner, Observer {
+            totalIncome = it ?: 0F
+            setAmount()
+        })
+
+        viewModel.totalExpense.observe(viewLifecycleOwner, Observer {
+            totalExpense = it ?: 0F
             setAmount()
         })
 
@@ -112,10 +121,29 @@ class HomeFragment : Fragment(), MonthsAdapter.MonthCardTransactions {
         tvCard.text = "$card"
         tvCheque.text = "$cheque"
         tvOthers.text = "$others"
-        tvNetBalance.text = "${cash + card + cheque + others}"
+
+        val netBalance = totalIncome - totalExpense
+        tvNetBalance.text = "$netBalance"
+
+        if (netBalance < 0)
+            tvNetBalance.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.expense_text_color
+                )
+            )
+        else
+            tvNetBalance.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.income_text_color
+                )
+            )
     }
 
     override suspend fun getPastTransactionsByMonth(monthId: String): List<PastTransaction> =
         viewModel.getTrans(monthId)
 
+    override suspend fun getMonthExpense(monthId: String): Float =
+        viewModel.getExpenseTemp(monthId)
 }

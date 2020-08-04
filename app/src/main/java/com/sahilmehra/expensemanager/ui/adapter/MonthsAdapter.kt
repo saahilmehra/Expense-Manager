@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -28,6 +29,7 @@ class MonthsAdapter(
 
     interface MonthCardTransactions {
         suspend fun getPastTransactionsByMonth(monthId: String): List<PastTransaction>
+        suspend fun getMonthExpense(monthId: String): Float
     }
 
     override fun onCreateViewHolder(
@@ -60,10 +62,27 @@ class MonthsAdapter(
                     monthCardTransactions.getPastTransactionsByMonth(month.id)
                 }
 
+                val expenseTask = async(Dispatchers.IO) {
+                    monthCardTransactions.getMonthExpense(month.id)
+                }
+
                 val list = task.await()
+                val expense = expenseTask.await()
 
                 if (list != null) {
                     (rvMonthTransactions.adapter as MonthsInnerListAdapter).submitList(list)
+                }
+
+                if (expense != null) {
+                    if (expense > month.budget) {
+                        tvBudgetExcceeded.visibility = View.VISIBLE
+                        colorView.setBackgroundColor(
+                            ContextCompat.getColor(
+                                context1,
+                                R.color.expense_text_color
+                            )
+                        )
+                    }
                 }
             }
 

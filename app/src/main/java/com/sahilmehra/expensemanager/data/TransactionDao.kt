@@ -21,6 +21,9 @@ interface TransactionDao {
     @Query("SELECT SUM(amount) FROM past_transaction WHERE mode= :transactionMode AND type=1")
     fun getAmountByMode(transactionMode: Int): LiveData<Float>
 
+    @Query("SELECT SUM(amount) FROM past_transaction WHERE type= :type")
+    fun getAmountByType(type: Int): LiveData<Float>
+
     @Query("SELECT * FROM upcoming_transaction WHERE category=0")
     fun getPersonalUpcomingTransactions(): LiveData<List<UpcomingTransaction>>
 
@@ -47,6 +50,9 @@ interface TransactionDao {
 
     @Query("SELECT SUM(amount) FROM past_transaction WHERE date BETWEEN :from AND :to AND type=1")
     fun getIncomeByMonth(from: Date, to: Date): LiveData<Float>
+
+    @Query("SELECT SUM(amount) FROM past_transaction WHERE date BETWEEN :from AND :to AND type=0")
+    suspend fun getExpenseByMonthTemp(from: Date, to: Date): Float
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPastTransaction(pastTransactions: PastTransaction)

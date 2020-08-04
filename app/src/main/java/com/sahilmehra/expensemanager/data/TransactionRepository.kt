@@ -23,6 +23,8 @@ class TransactionRepository(context: Application) {
     fun getAmountByMode(transactionMode: Int): LiveData<Float> =
         transactionDao.getAmountByMode(transactionMode)
 
+    fun getAmountByType(type: Int): LiveData<Float> = transactionDao.getAmountByType(type)
+
     fun getPersonalUpcomingTransactions(): LiveData<List<UpcomingTransaction>> =
         transactionDao.getPersonalUpcomingTransactions()
 
@@ -48,6 +50,9 @@ class TransactionRepository(context: Application) {
 
     fun getIncomeByMonth(from: Date, to: Date): LiveData<Float> =
         transactionDao.getIncomeByMonth(from, to)
+
+    suspend fun getExpenseByMonthTemp(from: Date, to: Date): Float =
+        transactionDao.getExpenseByMonthTemp(from, to)
 
     suspend fun insertPastTransaction(pastTransaction: PastTransaction) =
         transactionDao.insertPastTransaction(pastTransaction)

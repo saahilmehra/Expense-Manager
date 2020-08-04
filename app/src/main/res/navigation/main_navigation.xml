@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/tab">
+    app:startDestination="@id/onboarding">
 
     <fragment
         android:id="@+id/tab"
@@ -108,4 +108,15 @@
         android:name="com.sahilmehra.expensemanager.ui.CalendarFragment"
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
+    <fragment
+        android:id="@+id/onboarding"
+        android:name="com.sahilmehra.expensemanager.ui.OnboardingFragment"
+        android:label="fragment_onboarding"
+        tools:layout="@layout/fragment_onboarding">
+        <action
+            android:id="@+id/action_onboarding_to_tab"
+            app:destination="@id/tab"
+            app:popUpTo="@id/onboarding"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

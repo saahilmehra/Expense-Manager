@@ -53,4 +53,7 @@ class MonthsListFragment : Fragment(), MonthsAdapter.MonthCardTransactions {
 
     override suspend fun getPastTransactionsByMonth(monthId: String): List<PastTransaction> =
         viewModel.getTrans(monthId)
+
+    override suspend fun getMonthExpense(monthId: String): Float =
+        viewModel.getExpenseTemp(monthId)
 }
