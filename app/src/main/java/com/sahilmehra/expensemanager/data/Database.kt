@@ -6,14 +6,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@TypeConverters(DbTypeConverters::class)
+@TypeConverters(DbTypeConverters::class) //for date
 @Database(
     entities = [UpcomingTransaction::class, PastTransaction::class, Month::class],
     version = 1
 )
 abstract class Database : RoomDatabase() {
+    //dao for database operations
     abstract fun getTransactionDao(): TransactionDao
 
+    //creates a single instance of database for the whole app to avoid memory usage
     companion object {
         @Volatile
         private var instance: com.sahilmehra.expensemanager.data.Database? = null

@@ -13,12 +13,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
+    //add option menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //perform operation according to option selected
         return when (item.itemId) {
             R.id.calendarViewItem -> {
                 findNavController(R.id.main_container).navigate(R.id.calendar)

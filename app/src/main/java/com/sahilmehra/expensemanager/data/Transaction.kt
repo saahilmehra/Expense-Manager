@@ -5,11 +5,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
+//user can choose between personal and business transactions
 enum class TransactionCategory {
     Personal,
     Business
 }
 
+//user can choose between following different modes of transaction
 enum class TransactionMode {
     Cash,
     Card,
@@ -17,11 +19,13 @@ enum class TransactionMode {
     Others
 }
 
+//to mark a transaction as expense or income
 enum class TransactionType {
     Expense,
     Income
 }
 
+//table to store past transactions
 @Entity(tableName = "past_transaction")
 data class PastTransaction(
     @PrimaryKey(autoGenerate = true) val id: Long,
@@ -34,6 +38,7 @@ data class PastTransaction(
     val type: Int
 )
 
+//table to store upcoming transactions
 @Entity(tableName = "upcoming_transaction")
 data class UpcomingTransaction(
     @PrimaryKey(autoGenerate = true) val id: Long,
@@ -49,6 +54,11 @@ data class UpcomingTransaction(
     val type: Int
 )
 
+/*
+table to store months
+id will be month number + year
+eg- July, 2020 will have id as 072020
+ */
 @Entity(tableName = "month_data")
 data class Month(
     @PrimaryKey val id: String,

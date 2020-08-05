@@ -16,11 +16,13 @@ import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class MonthsListFragment : Fragment(), MonthsAdapter.MonthCardTransactions {
+    //create object of view model
     private lateinit var viewModel: TransactionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //instantiate view model
         viewModel = ViewModelProvider(requireActivity()).get(TransactionViewModel::class.java)
     }
 
@@ -35,6 +37,7 @@ class MonthsListFragment : Fragment(), MonthsAdapter.MonthCardTransactions {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //set up the months recycler view
         with(rvMonths) {
             adapter = MonthsAdapter(this@MonthsListFragment, requireContext()) {
                 findNavController().navigate(
@@ -46,14 +49,17 @@ class MonthsListFragment : Fragment(), MonthsAdapter.MonthCardTransactions {
             layoutManager = LinearLayoutManager(context)
         }
 
+        //observe for changes in months and update the ui
         viewModel.months.observe(viewLifecycleOwner, Observer {
             (rvMonths.adapter as MonthsAdapter).submitList(it)
         })
     }
 
+    //return past transaction of a particular month
     override suspend fun getPastTransactionsByMonth(monthId: String): List<PastTransaction> =
         viewModel.getTrans(monthId)
 
+    //return amount spent in a particular month
     override suspend fun getMonthExpense(monthId: String): Float =
         viewModel.getExpenseTemp(monthId)
 }

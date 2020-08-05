@@ -15,11 +15,13 @@ import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class UpcomingTransactionsListFragment : Fragment() {
+    //create object of view model
     private lateinit var viewModel: TransactionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //instantiate view model
         viewModel = ViewModelProvider(requireActivity()).get(TransactionViewModel::class.java)
     }
 
@@ -34,9 +36,11 @@ class UpcomingTransactionsListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //set up the recycler view to show list of upcoming transactions
         with(rvUpcomingTransactions) {
             adapter = UpcomingTransactionsListAdapter(
                 requireContext(),
+                //edit listener and pass the monthId and type as 1(upcoming transaction)
                 {
                     findNavController().navigate(
                         UpcomingTransactionsListFragmentDirections.actionUpcomingTransactionsListToAddTransaction(
@@ -45,11 +49,12 @@ class UpcomingTransactionsListFragment : Fragment() {
                         )
                     )
                 }) {
-                viewModel.deleteUpcomingTransaction(it)
+                viewModel.deleteUpcomingTransaction(it) //delete transaction
             }
             layoutManager = LinearLayoutManager(context)
         }
 
+        //observe for changes in upcoming transactions and update the ui
         viewModel.upcomingTransactions.observe(viewLifecycleOwner, Observer {
             (rvUpcomingTransactions.adapter as UpcomingTransactionsListAdapter).submitList(it)
         })

@@ -47,21 +47,25 @@ class UpcomingTransactionsListAdapter(
         LayoutContainer {
 
         init {
+            //set the popup menu
             itemView.setOnClickListener {
                 val popupMenu = PopupMenu(context, itemView)
 
-                popupMenu.inflate(R.menu.upcoming_menu)
+                popupMenu.inflate(R.menu.upcoming_menu) //inflate the menu layout
 
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
+                        //mark the tranaction as completed
                         R.id.completeItem -> {
                             Log.e("upcoming value", "upcoming complete")
                             Toast.makeText(context, "Transaction Completed", Toast.LENGTH_SHORT)
                                 .show()
                         }
+                        //edit the transaction
                         R.id.editUpcomingItem -> {
                             editListener.invoke(getItem(adapterPosition).id)
                         }
+                        //delete the transaction
                         R.id.deleteUpcomingItem -> {
                             deleteListener.invoke(getItem(adapterPosition))
                         }
@@ -69,11 +73,12 @@ class UpcomingTransactionsListAdapter(
                     true
                 }
 
-                popupMenu.show()
+                popupMenu.show() //show the popup menu
             }
         }
 
         fun bind(upcomingTransaction: UpcomingTransaction) {
+            //show data in text views
             with(upcomingTransaction) {
                 tvNameList.text = name
                 tvDateList.text = date.readableFormat()
@@ -84,6 +89,7 @@ class UpcomingTransactionsListAdapter(
                     3 -> tvTransactionTypeList.text = TransactionMode.Others.name
                 }
 
+                //if type is expense, mark its color as red, otherwise green
                 if (type == TransactionType.Income.ordinal) {
                     tvAmountList.text = "+$amount"
                     tvAmountList.setTextColor(
@@ -106,6 +112,7 @@ class UpcomingTransactionsListAdapter(
     }
 }
 
+//check if the list has been updated or not
 class DiffCallbackUtList : DiffUtil.ItemCallback<UpcomingTransaction>() {
     override fun areItemsTheSame(
         oldItem: UpcomingTransaction,

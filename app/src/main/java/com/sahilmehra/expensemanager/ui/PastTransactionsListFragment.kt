@@ -15,11 +15,13 @@ import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class PastTransactionsListFragment : Fragment() {
+    //create object of view model
     private lateinit var viewModel: TransactionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //instantiate view model
         viewModel = ViewModelProvider(requireActivity()).get(TransactionViewModel::class.java)
     }
 
@@ -34,9 +36,11 @@ class PastTransactionsListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //set up the recycler view to show list of past transactions
         with(rvPastTransactions) {
             adapter = PastTransactionsListAdapter(
                 requireContext(),
+                //edit listener and pass the monthId and type as 2(past transaction)
                 {
                     findNavController().navigate(
                         PastTransactionsListFragmentDirections.actionPastTransactionsListToAddTransaction(
@@ -45,11 +49,12 @@ class PastTransactionsListFragment : Fragment() {
                         )
                     )
                 }) {
-                viewModel.deletePastTransaction(it)
+                viewModel.deletePastTransaction(it) //delete transaction
             }
             layoutManager = LinearLayoutManager(context)
         }
 
+        //observe for changes in past transactions and update the ui
         viewModel.pastTransactions.observe(viewLifecycleOwner, Observer {
             (rvPastTransactions.adapter as PastTransactionsListAdapter).submitList(it)
         })

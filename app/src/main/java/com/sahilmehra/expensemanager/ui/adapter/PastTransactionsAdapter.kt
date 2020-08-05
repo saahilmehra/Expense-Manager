@@ -1,6 +1,7 @@
 package com.sahilmehra.expensemanager.ui.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,12 +31,22 @@ class PastTransactionsAdapter(private val context: Context) :
         holder.bind(getItem(position))
     }
 
+    override fun getItemCount(): Int {
+        return if(currentList.size<=5)
+            super.getItemCount()
+        else
+            5
+    }
+
     inner class ViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView), LayoutContainer {
         fun bind(pastTransaction: PastTransaction) {
+            //populate the views with data
             with(pastTransaction) {
                 tvName.text = name
                 tvDate.text = date.readableFormat()
+
+                //if type is expense, mark its color as red, otherwise green
                 if (type == TransactionType.Income.ordinal) {
                     tvAmount.text = "+$amount"
                     tvAmount.setTextColor(
@@ -58,6 +69,7 @@ class PastTransactionsAdapter(private val context: Context) :
     }
 }
 
+//check if the list has been updated or not
 class DiffCallback : DiffUtil.ItemCallback<PastTransaction>() {
     override fun areItemsTheSame(oldItem: PastTransaction, newItem: PastTransaction): Boolean {
         return oldItem.id == newItem.id

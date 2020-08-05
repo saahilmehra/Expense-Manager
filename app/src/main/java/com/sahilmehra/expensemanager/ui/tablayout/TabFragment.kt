@@ -24,12 +24,15 @@ class TabFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        //set up view pager
         val viewPagerAdapter = ViewPagerAdapter(this, 3)
         val viewPager: ViewPager2 = view.findViewById(R.id.viewPager)
         viewPager.adapter = viewPagerAdapter
 
+        //instantiate tab layout
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
 
+        //attach the tab layout to view pager
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = "All"
@@ -39,6 +42,7 @@ class TabFragment : Fragment() {
         }.attach()
 
         fabAddTransaction.setOnClickListener {
+            //move to add transaction fragment
             findNavController().navigate(TabFragmentDirections.actionTabToAddTransaction())
         }
     }

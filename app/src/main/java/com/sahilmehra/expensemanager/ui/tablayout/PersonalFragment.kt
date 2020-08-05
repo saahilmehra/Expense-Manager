@@ -1,5 +1,6 @@
 package com.sahilmehra.expensemanager.ui.tablayout
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,13 @@ import com.sahilmehra.expensemanager.viewmodel.TransactionViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class PersonalFragment : Fragment() {
+    //create object of view model
     private lateinit var viewModel: TransactionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //instantiate view model
         viewModel = ViewModelProvider(requireActivity()).get(TransactionViewModel::class.java)
     }
 
@@ -35,6 +38,7 @@ class PersonalFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //setup upcoming transactions recycler view
         with(rvUpcomingTransactions) {
             adapter = UpcomingTransactionsListAdapter(requireContext(), {
                 findNavController().navigate(
@@ -46,6 +50,7 @@ class PersonalFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
 
+        //setup past transactions recycler view
         with(rvPastTransactions) {
             adapter =
                 PastTransactionsListAdapter(requireContext(), {
@@ -56,10 +61,18 @@ class PersonalFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
 
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("EXPENSE_MANAGER", Context.MODE_PRIVATE)
+        val budget = sharedPreferences.getFloat("MONTHLY_BUDGET", 1000F)
+
+        tvNetBalance.text = "$budget"
+
+        //observe for changes in upcoming transactions and update the ui
         viewModel.personalUpcomingTransactions.observe(viewLifecycleOwner, Observer {
             (rvUpcomingTransactions.adapter as UpcomingTransactionsListAdapter).submitList(it)
         })
 
+        //observe for changes in past transactions and update the ui
         viewModel.personalPastTransactions.observe(viewLifecycleOwner, Observer {
             (rvPastTransactions.adapter as PastTransactionsListAdapter).submitList(it)
         })

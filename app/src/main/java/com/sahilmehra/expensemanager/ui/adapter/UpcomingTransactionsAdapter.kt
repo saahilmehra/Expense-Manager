@@ -30,13 +30,23 @@ class UpcomingTransactionsAdapter(private val context: Context) :
         holder.bind(getItem(position))
     }
 
+    override fun getItemCount(): Int {
+        return if(currentList.size<=5)
+            super.getItemCount()
+        else
+            5
+    }
+
     inner class ViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(upcomingTransaction: UpcomingTransaction) {
+            //populate the views with data
             with(upcomingTransaction) {
                 tvName.text = name
                 tvDate.text = date.readableFormat()
+
+                //if type is expense, mark its color as red, otherwise green
                 if (type == TransactionType.Income.ordinal) {
                     tvAmount.text = "+$amount"
                     tvAmount.setTextColor(
@@ -59,6 +69,7 @@ class UpcomingTransactionsAdapter(private val context: Context) :
     }
 }
 
+//check if the list has been updated or not
 class DiffCallbackUT : DiffUtil.ItemCallback<UpcomingTransaction>() {
     override fun areItemsTheSame(
         oldItem: UpcomingTransaction,

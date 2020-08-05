@@ -4,11 +4,13 @@ import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
+//convert date to specific format
 fun Date.readableFormat(): String {
     val dateFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault())
     return dateFormat.format(this)
 }
 
+//get first day of month from monthId
 fun String.firstDayOfMonth(): Date {
     val startDateString = "01$this"
     val dateFormat = SimpleDateFormat("ddMMyyyy")
@@ -22,6 +24,7 @@ fun String.firstDayOfMonth(): Date {
     return calendar.time
 }
 
+//get last day of month from monthId
 fun String.lastDayOfMonth(): Date {
     val startDateString = "01$this"
     val dateFormat = SimpleDateFormat("ddMMyyyy")
@@ -34,6 +37,7 @@ fun String.lastDayOfMonth(): Date {
     return calendar.time
 }
 
+//get month name from month number
 fun String.monthName(): String =
     when (this) {
         "01" -> "January"

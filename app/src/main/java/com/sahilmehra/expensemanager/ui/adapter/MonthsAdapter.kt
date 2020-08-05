@@ -27,6 +27,7 @@ class MonthsAdapter(
 ) :
     ListAdapter<Month, MonthsAdapter.ViewHolder>(DiffCallbackMonth()) {
 
+    //create interface for transactions and amount spent in a particular month
     interface MonthCardTransactions {
         suspend fun getPastTransactionsByMonth(monthId: String): List<PastTransaction>
         suspend fun getMonthExpense(monthId: String): Float
@@ -45,11 +46,20 @@ class MonthsAdapter(
         holder.bind(getItem(position))
     }
 
+    override fun getItemCount(): Int {
+        return if(currentList.size<=3)
+            super.getItemCount()
+        else
+            3
+    }
+
     inner class ViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView), LayoutContainer {
         fun bind(month: Month) {
+            //populate the ui with data
             tvMonthName.text = month.id.substring(0, 2).monthName()
 
+            //set up transactions recycler view
             with(rvMonthTransactions) {
                 adapter = MonthsInnerListAdapter(
                     context1
@@ -58,21 +68,29 @@ class MonthsAdapter(
             }
 
             CoroutineScope(Dispatchers.Main).launch {
+                //fetch transactions on IO thread
                 val task = async(Dispatchers.IO) {
                     monthCardTransactions.getPastTransactionsByMonth(month.id)
                 }
 
+                //fetch amount spent on IO thread
                 val expenseTask = async(Dispatchers.IO) {
                     monthCardTransactions.getMonthExpense(month.id)
                 }
 
+                //wait for the results to arrive
                 val list = task.await()
                 val expense = expenseTask.await()
 
+                //update the ui on arrival of results
                 if (list != null) {
                     (rvMonthTransactions.adapter as MonthsInnerListAdapter).submitList(list)
                 }
 
+                /*
+                If amount spent in a particular month is more than the budget set for that month,
+                then show "budget exceed" and mark the card top color as red.
+                 */
                 if (expense != null) {
                     if (expense > month.budget) {
                         tvBudgetExcceeded.visibility = View.VISIBLE
@@ -86,11 +104,13 @@ class MonthsAdapter(
                 }
             }
 
+            //navigate to month detail fragment
             btnMonthListNext.setOnClickListener { listener.invoke(month.id) }
         }
     }
 }
 
+//check if the list has been updated or not
 class DiffCallbackMonth : DiffUtil.ItemCallback<Month>() {
     override fun areItemsTheSame(oldItem: Month, newItem: Month): Boolean {
         return oldItem.id == newItem.id

@@ -21,10 +21,12 @@ class OnboardingFragment : Fragment() {
     private lateinit var tilMonthlyBudget: TextInputLayout
     private lateinit var tilMonthlyIncome: TextInputLayout
 
+    //Text Input Layouts
     private lateinit var tietUserName: EditText
     private lateinit var tietMonthlyBudget: EditText
     private lateinit var tietMonthlyIncome: EditText
 
+    //Text Input Edit Texts
     private var userName = ""
     private var monthlyBudget = 1000F
     private var monthlyIncome = 1000F
@@ -32,6 +34,7 @@ class OnboardingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //hide action bar
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
     }
 
@@ -46,10 +49,12 @@ class OnboardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //get the previously started value from shared preferences
         val sharedPreferences =
             requireActivity().getSharedPreferences("EXPENSE_MANAGER", Context.MODE_PRIVATE)
         val previouslyStarted = sharedPreferences.getBoolean("PREVIOUSLY_STARTED", false)
 
+        //if the previouslyStarted is true, then navigate to tab fragment
         if (previouslyStarted)
             findNavController().navigate(R.id.action_onboarding_to_tab)
 
@@ -62,8 +67,6 @@ class OnboardingFragment : Fragment() {
         tilMonthlyIncome = view.findViewById(R.id.tilMonthlyIncome)
 
         validateText(tietUserName, tilUserName)
-        validateText(tietMonthlyBudget, tilMonthlyBudget)
-        validateText(tietMonthlyIncome, tilMonthlyIncome)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,6 +78,7 @@ class OnboardingFragment : Fragment() {
     }
 
     private fun validateText(editText: EditText, textLayout: TextInputLayout) {
+        //if the edit text is made empty, then show the error
         editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isEmpty())
@@ -92,6 +96,7 @@ class OnboardingFragment : Fragment() {
             }
         })
 
+        //If the focus is changed from edit text, then show the error if it is empty
         editText.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 if (editText.text.toString().isEmpty())
@@ -103,6 +108,7 @@ class OnboardingFragment : Fragment() {
     }
 
     private fun checkValidations() {
+        //show error message in toast if username has been left blank
         if (tietUserName.text.isEmpty())
             Toast.makeText(requireContext(), "Please fill all fields!", Toast.LENGTH_LONG).show()
         else {
@@ -111,14 +117,18 @@ class OnboardingFragment : Fragment() {
     }
 
     private fun saveData() {
+        //get the monthly budget set by the use
         if (tietMonthlyBudget.text.isNotEmpty())
             monthlyBudget = tietMonthlyBudget.text.toString().toFloat()
 
+        //get the monthly income set by the use
         if (tietMonthlyIncome.text.isNotEmpty())
             monthlyIncome = tietMonthlyIncome.text.toString().toFloat()
 
+        //get the username set by the user
         userName = tietUserName.text.toString().trim()
 
+        //add all the three values to shared preferences and set previously_started to true
         val sharedPreferences =
             requireActivity().getSharedPreferences("EXPENSE_MANAGER", Context.MODE_PRIVATE)
 
@@ -130,6 +140,7 @@ class OnboardingFragment : Fragment() {
             commit()
         }
 
+        //navigate to tab fragment
         findNavController().navigate(R.id.action_onboarding_to_tab)
     }
 }

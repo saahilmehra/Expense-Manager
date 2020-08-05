@@ -42,16 +42,19 @@ class PastTransactionsListAdapter(
         LayoutContainer {
 
         init {
+            //set the popup menu
             itemView.setOnClickListener {
                 val popupMenu = PopupMenu(context, itemView)
 
-                popupMenu.inflate(R.menu.past_menu)
+                popupMenu.inflate(R.menu.past_menu) //inflate the menu layout
 
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
+                        //edit the transaction
                         R.id.editPastItem -> {
                             editListener.invoke(getItem(adapterPosition).id)
                         }
+                        //delete the transaction
                         R.id.deletePastItem -> {
                             deleteListener.invoke(getItem(adapterPosition))
                         }
@@ -59,11 +62,12 @@ class PastTransactionsListAdapter(
                     true
                 }
 
-                popupMenu.show()
+                popupMenu.show() //show the popup menu
             }
         }
 
         fun bind(pastTransaction: PastTransaction) {
+            //show data in text views
             with(pastTransaction) {
                 tvNameList.text = name
                 tvDateList.text = date.readableFormat()
@@ -74,6 +78,7 @@ class PastTransactionsListAdapter(
                     3 -> tvTransactionTypeList.text = TransactionMode.Others.name
                 }
 
+                //if type is expense, mark its color as red, otherwise green
                 if (type == TransactionType.Income.ordinal) {
                     tvAmountList.text = "+$amount"
                     tvAmountList.setTextColor(
@@ -96,6 +101,7 @@ class PastTransactionsListAdapter(
     }
 }
 
+//check if the list has been updated or not
 class DiffCallbackPtList : DiffUtil.ItemCallback<PastTransaction>() {
     override fun areItemsTheSame(oldItem: PastTransaction, newItem: PastTransaction): Boolean {
         return oldItem.id == newItem.id
